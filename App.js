@@ -1,19 +1,23 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, Button } from "react-native";
+import SplashScreen from "./containers/SplashScreen";
+import ProductsScreen from "./containers/ProductsScreen";
+import CameraScreen from "./containers/CameraScreen";
+import NavHeader from "./components/NavHeader";
 
 export default function App() {
+  const [screen, setScreen] = useState("Splash");
+
+  const handleChangeScreen = screen => {
+    setScreen(screen);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <View style={{ flex: 1 }}>
+      <NavHeader handleChangeScreen={handleChangeScreen} />
+      {screen === "Splash" && <SplashScreen />}
+      {screen === "Products" && <ProductsScreen />}
+      {screen === "Camera" && <CameraScreen />}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

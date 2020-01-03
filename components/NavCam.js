@@ -10,7 +10,7 @@ const NavBar = props => {
         size={20}
         color="green"
         onPress={() => {
-          props.handleChangeScreen("Camera");
+          props.handleSwithToCamera();
         }}
       />
     </View>

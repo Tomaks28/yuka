@@ -15,7 +15,12 @@ const height = Dimensions.get("window").height;
 
 export default function App() {
   const [screen, setScreen] = useState("Splash");
+  const [isCamera, setIsCamera] = useState(false);
   const [hasPermissions, setHasPermissions] = useState(false);
+
+  const handleSwithToCamera = () => {
+    setIsCamera(!isCamera);
+  };
 
   const handleChangeScreen = screen => {
     switch (screen) {
@@ -29,6 +34,8 @@ export default function App() {
         scrollToItem(2);
         break;
       case "Camera":
+        setScreen("Camera");
+
         break;
       default:
         break;
@@ -48,7 +55,7 @@ export default function App() {
 
   return (
     <View style={{ flex: 1, position: "relative" }}>
-      {screen === "Camera" ? (
+      {isCamera ? (
         <CameraScreen apiUrl={apiUrl} />
       ) : (
         <>
@@ -82,8 +89,6 @@ export default function App() {
                 case 2:
                   setScreen("Favorites");
                   break;
-                case "Camera":
-                  break;
                 default:
                   break;
               }
@@ -101,7 +106,10 @@ export default function App() {
           />
         </>
       )}
-      <NavCam handleChangeScreen={handleChangeScreen} />
+      <NavCam
+        handleChangeScreen={handleChangeScreen}
+        handleSwithToCamera={handleSwithToCamera}
+      />
     </View>
   );
 }

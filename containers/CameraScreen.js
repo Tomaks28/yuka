@@ -2,21 +2,28 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import axios from "axios";
+import ShadowScreen from "../components/ShadowScreen";
 
 const CameraScreen = props => {
   const [scannedCode, setScannedCode] = useState("");
   const [product, setProduct] = useState({});
+  console.log(product);
 
   useEffect(() => {
     if (scannedCode) {
       const fetchData = async () => {
         try {
           const response = await axios.get(props.apiUrl + scannedCode);
-          setProduct(
-            { ...product },
-            { name: response.data.product.product_name }
-          );
-          // console.log(response.data.product.product_name);
+          if (response) {
+            setProduct(
+              // { ...product },
+              {
+                name: response.data.product.product_name,
+                nutriscore: response.data.product.nutriscore_grade,
+                allergens: response.data.product.allergens_tags
+              }
+            );
+          }
         } catch (err) {
           console.log(err);
         }
@@ -35,6 +42,7 @@ const CameraScreen = props => {
         }}
         style={StyleSheet.absoluteFillObject}
       />
+      <ShadowScreen />
     </View>
   );
 };
@@ -47,6 +55,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "black",
     alignItems: "center",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    position: "relative"
   }
 });
